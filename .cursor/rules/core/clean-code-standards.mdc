@@ -1,0 +1,313 @@
+---
+description: Temiz kod standartları - Unused import temizliği, dead code elimination ve kod kalitesi kontrolü
+globs:
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.ts" 
+  - "**/*.tsx"
+  - "**/*.vue"
+  - "**/*.py"
+alwaysApply: true
+priority: 2
+triggers: ['code_modification', 'import_changes', 'refactoring', 'new_implementation']
+enforcement_level: zero_tolerance
+depends_on: ['file-size-enforcement.mdc']
+---
+
+# TEMİZ KOD STANDARTLARI - KALİTE KONTROLÜ
+
+## TEMEL FELSEFESİ - ZERO TOLERANCE
+
+Temiz kod yazmak isteğe bağlı değil, mutlak bir gerekliliktir. Bu component her kod değişikliğinde devreye girer ve kalite standartlarını zorla uygular.
+
+## IMPORT YÖNETİMİ - SIFIR TOLERANS
+
+### OTOMATİK IMPORT TEMİZLİĞİ
+Her dosya değişikliğinden önce import audit protokolü çalıştırılır:
+
+```javascript
+function performImportAudit(filePath) {
+    const imports = extractAllImports(filePath);
+    const usages = scanCodeForUsages(filePath);
+    
+    const unusedImports = imports.filter(imp => 
+        !usages.includes(imp.identifier)
+    );
+    
+    if (unusedImports.length > 0) {
+        IMMEDIATELY_REMOVE(unusedImports);
+        REPORT_CLEANUP(unusedImports);
+    }
+}
+```
+
+### IMPORT CLEANUP KURALLAR
+
+**Derhal kaldırılacak importlar:**
+- ✅ Hiç kullanılmayan importlar
+- ✅ Gereksiz wildcard importlar (`import * as`)
+- ✅ Duplicate importlar (aynı kaynaktan birden fazla)
+- ✅ Dev-only importlar (production'da gereksiz)
+
+**Import optimizasyon:**
+```javascript
+// ❌ ÖNCE (Kötü)
+import * as React from 'react';
+import { useState } from 'react';
+import { Button } from '@material-ui/core';
+import { Button as MuiButton } from '@material-ui/core';
+
+// ✅ SONRA (İyi)
+import React, { useState } from 'react';
+import { Button } from '@material-ui/core';
+```
+
+### IMPORT ORGANIZASYON STANDARTLARI
+
+**Sıralama düzeni (otomatik):**
+1. **External libraries** (react, lodash, etc.)
+2. **Internal libraries** (company packages)
+3. **Relative imports** (./components, ../utils)
+4. **Type imports** (ayrı blok halinde)
+
+```javascript
+// External
+import React, { useState, useEffect } from 'react';
+import { debounce } from 'lodash';
+
+// Internal  
+import { apiCall } from '@company/api-utils';
+
+// Relative
+import { Button } from './Button';
+import { validateInput } from '../utils/validation';
+
+// Types
+import type { User } from '../types/User';
+import type { ApiResponse } from './types';
+```
+
+## KOD KALİTE KONTROLLERI - MUTLAK KURALLAR
+
+### UNUSED CODE ELİMİNASYONU
+
+**Derhal kaldırılacak kod blokları:**
+- ❌ Kullanılmayan değişkenler
+- ❌ Kullanılmayan fonksiyonlar  
+- ❌ Empty fonksiyonlar veya componentler
+- ❌ Commented-out code blokları
+- ❌ Console.log statements (debug amaçlı olanlar)
+- ❌ Dead code paths (erişilemeyen kodlar)
+
+**Temizlik örneği:**
+```javascript
+// ❌ ÖNCE (Kirli)
+const MyComponent = () => {
+  const unusedVariable = 'never used';
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState(''); // never used
+  
+  // console.log('debug info'); // commented debug
+  
+  const unusedFunction = () => {
+    // some logic that's never called
+  };
+  
+  const emptyFunction = () => {};
+  
+  return <div>{count}</div>;
+};
+
+// ✅ SONRA (Temiz)
+const MyComponent = () => {
+  const [count, setCount] = useState(0);
+  
+  return <div>{count}</div>;
+};
+```
+
+### SINGLE RESPONSIBILITY PRİNCİPLE ENFORCEMENT
+
+Her component, fonksiyon veya dosya sadece bir görevi yerine getirmelidir:
+
+**Component düzeyinde:**
+```javascript
+// ❌ YANLIŞ (Çok sorumluluk)
+const UserProfileAndSettings = () => {
+  // User profile logic
+  // Settings management logic  
+  // API calls for both
+  // Validation for both
+  return (/* complex mixed UI */);
+};
+
+// ✅ DOĞRU (Tek sorumluluk)
+const UserProfile = () => {
+  // Only profile display logic
+  return (/* profile UI */);
+};
+
+const UserSettings = () => {
+  // Only settings management
+  return (/* settings UI */);
+};
+```
+
+### CONCISE IMPLEMENTATION - MİNİMAL KOD
+
+**Over-engineering prevention:**
+- ✅ En basit çalışan çözümü tercih et
+- ✅ Gereksiz abstraction'lardan kaçın
+- ✅ Premature optimization yapmayın
+- ✅ YAGNI (You Ain't Gonna Need It) prensibi
+
+**Minimal implementation örneği:**
+```javascript
+// ❌ OVER-ENGINEERED
+class UserManager {
+  constructor() {
+    this.users = new Map();
+    this.observers = [];
+    this.middleware = [];
+  }
+  
+  addMiddleware(fn) { /* complex logic */ }
+  notifyObservers() { /* complex logic */ }
+  // ... 50+ lines of unnecessary complexity
+}
+
+// ✅ MINIMAL VE YETERİNCE
+const users = [];
+
+const addUser = (user) => users.push(user);
+const getUser = (id) => users.find(u => u.id === id);
+```
+
+## REFACTORING TETİKLEYİCİLERİ
+
+### OTOMATİK REFACTORING SİNYALLERİ
+Sistem aşağıdaki durumları tespit ettiğinde otomatik refactoring önerir:
+
+1. **Duplicate Code Detection** (3+ repeated patterns)
+2. **Long Parameter Lists** (5+ parameters)
+3. **Complex Conditional Logic** (3+ nested levels)
+4. **Magic Numbers/Strings** (hardcoded values)
+5. **God Functions** (20+ lines, multiple responsibilities)
+
+### REFACTORING STRATEJİLERİ
+
+**Extract Function Pattern:**
+```javascript
+// ❌ ÖNCE (Long method)
+const processUserData = (userData) => {
+  // 30+ lines of processing logic
+  const validated = validateEmail(userData.email) && 
+                   validateAge(userData.age) &&
+                   validateName(userData.name);
+  // more processing...
+};
+
+// ✅ SONRA (Extracted)
+const processUserData = (userData) => {
+  const validated = validateUserData(userData);
+  if (!validated) return null;
+  
+  return normalizeUserData(userData);
+};
+
+const validateUserData = (userData) => {
+  return validateEmail(userData.email) && 
+         validateAge(userData.age) &&
+         validateName(userData.name);
+};
+```
+
+## KALİTE GATE'LER - MUTLAK KONTROLLER
+
+### PRE-IMPLEMENTATION CHECKS
+Her kod değişikliğinden önce:
+- [ ] **Target file size check** (700+ satır kontrolü)
+- [ ] **Import audit** (unused imports scan)
+- [ ] **Existing code quality scan** (dead code detection)
+- [ ] **Dependency analysis** (unnecessary dependencies)
+
+### POST-IMPLEMENTATION VALIDATION  
+Her kod değişikliğinden sonra:
+- [ ] **No unused imports** (sıfır kullanılmayan import)
+- [ ] **No dead code** (sıfır gereksiz kod)
+- [ ] **Single responsibility maintained** (tek görev prensibi)
+- [ ] **Minimal implementation achieved** (en az kod)
+- [ ] **File size compliance** (boyut limitlerinde)
+
+## RAPORLAMA STANDARTLARI
+
+### TEMİZLİK RAPORU FORMATI
+```
+🧹 KOD TEMİZLİĞİ TAMAMLANDI:
+   ❌ Kaldırılan unused importlar: [import list]
+   ❌ Silinen dead code blokları: [block list]  
+   ❌ Temizlenen empty functions: [function list]
+   ❌ Kaldırılan debug kodları: [debug statement count]
+
+✅ KOD KALİTE İYİLEŞTİRMELERİ:
+   🎯 Single responsibility uygulandı: [component list]
+   📦 Extract edilenler: [extracted functions/components]
+   🔄 Refactor edilen yapılar: [refactored structures]
+   
+📊 SONUÇ:
+   📏 Dosya boyutu: [X satır] / 1000 limit - [STATUS]
+   🚀 Kod kalitesi: [improvement summary]
+   ⚡ Performance impact: [performance notes]
+```
+
+### OPTİMİZASYON RAPORU
+```
+⚡ KOD OPTİMİZASYONU:
+   📦 Import structure: [changes made]
+   🔧 Function extraction: [new functions created]  
+   🎯 Component splitting: [new components created]
+   🧮 Logic consolidation: [duplicate code removed]
+
+📈 KALITE METRİKLERİ:
+   📏 Ortalama fonksiyon boyutu: [X satır]
+   🎯 Component sorumlulukları: [single/multiple]
+   🔄 Code reusability: [reusable blocks identified]
+```
+
+## ENFORCEMENT POLİCY - SIFIR TOLERANS
+
+### AUTOMATIC ENFORCEMENT
+- **Unused imports**: Otomatik kaldırılır, kullanıcıya sorulmaz
+- **Dead code**: Derhal silinir, backup alınmaz  
+- **Empty functions**: Anında remove edilir
+- **Console logs**: Debug amaçlılar temizlenir
+
+### MANUAL REVIEW REQUIRED
+- **Complex refactoring**: Kullanıcıya onay sorulur
+- **Architecture changes**: Plan sunulur, onay beklenir
+- **Breaking changes**: Etki analizi yapılır
+
+### NON-NEGOTIABLE RULES
+Bu kurallar asla esnetilemez:
+1. ❌ Kullanılmayan import bırakılamaz
+2. ❌ Dead code tolere edilmez  
+3. ❌ Empty implementation kabul edilmez
+4. ❌ Over-engineering yapılamaz
+5. ❌ Single responsibility ihlal edilemez
+
+## SİSTEM ENTEGRASYONU
+
+### DİĞER COMPONENTLERLE SENKRONIZASYON
+- `file-size-enforcement.mdc`: Temizlik sonrası boyut kontrolü
+- `codebase-analysis.mdc`: Analiz sırasında kalite metrikleri
+- `simple-task-handling.mdc`: Basit görevlerde de kalite standardı
+- `complex-project-management.mdc`: Büyük projelerde sistematik temizlik
+
+### PRIORITY INTEGRATION  
+1. **İlk**: File size enforcement (blokaj varsa dur)
+2. **İkinci**: Clean code standards (bu component)  
+3. **Üçüncü**: Diğer tüm kurallar
+
+---
+
+*Temiz kod yazmak luxury değil, necessity'dir. Bu standartlar her projede mutlak olarak uygulanır.*

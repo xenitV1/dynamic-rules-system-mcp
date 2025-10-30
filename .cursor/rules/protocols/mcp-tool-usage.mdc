@@ -1,0 +1,436 @@
+---
+description: MCP araçlarının akıllı ve seçici kullanımı - Sadece karmaşık çoklu adım görevler ve bilinmeyen teknolojiler için
+globs:
+  - "**/*"
+alwaysApply: false
+priority: 4
+triggers: ['complex_multi_step_tasks', 'unfamiliar_codebase_exploration', 'systematic_debugging', 'user_learning_requests']
+conditions: ['complexity >= complex', 'steps >= 3', 'unknown_technology = true', 'user_requests_explanation = true']
+mcp_tools: ['sequential-thinking', 'context7']
+activation_threshold: 0.6
+---
+
+# MCP TOOL KULLANIMI - AKILLI VE SEÇİCİ
+
+## TEMEL FELSEFESİ - PURPOSE-DRIVEN USAGE
+
+MCP toolları sürekli kullanılacak araçlar değil, spesifik durumlar için tasarlanmış özel araçlardır. Her tool kullanımının net bir amacı ve faydası olmalıdır.
+
+## SMART ACTIVATION - AKILLI AKTİVASYON
+
+### MCP TOOL KULLANIM KRİTERLERİ - STRICT RULES
+
+MCP toolları SADECE şu durumlardan biri geçerliyse kullan:
+
+✅ **COMPLEX MULTI-STEP PROBLEMS** (3+ distinct steps)
+- Çoklu dosya analizi gereksinimi
+- Bağımlılık zinciri takibi
+- Sistemil bug hunting
+- Architecture planning
+
+✅ **MULTIPLE USER REQUESTS** (Single message'da 2+ request)
+- "A yap ve B'yi de kontrol et"  
+- "X özelliğini ekle, Y'yi optimize et"
+- "Bug'ı düzelt ve test et"
+
+✅ **SYSTEMATIC DEBUGGING** (Root cause analysis)
+- Error source unclear
+- Multiple potential causes
+- Cross-component investigation needed
+
+✅ **UNFAMILIAR CODEBASE** (First time seeing structure)
+- New project exploration
+- Complex architecture understanding
+- Legacy code investigation
+
+✅ **EXPLICIT USER REQUEST** 
+- "Adım adım açıkla"
+- "Detaylı analiz yap"  
+- "Nasıl çalıştığını öğrenmek istiyorum"
+
+### MCP TOOL KULLANILMAYACAK DURUMLAR - CLEAR RESTRICTIONS
+
+❌ **SIMPLE SINGLE-STEP TASKS**
+- Basic file edits
+- Single component creation
+- Simple bug fixes
+- Straightforward implementations
+
+❌ **ROUTINE OPERATIONS**
+- Import additions
+- CSS styling changes
+- Variable renaming
+- Simple refactoring
+
+❌ **QUICK ANSWERS**
+- Single concept explanations
+- Direct code examples
+- Status checks
+
+❌ **TIME-WASTING SCENARIOS**
+- Over-analyzing simple problems
+- Unnecessary step-by-step for obvious tasks
+- Tool usage just for the sake of using tools
+
+## AVAILABLE MCP TOOLS - STRATEGIC USAGE
+
+### mcp-sequentialthinking-tools (CONDITIONAL)
+
+**Purpose**: Step-by-step thinking for complex problems
+
+**Use ONLY when:**
+- Task has 3+ interconnected steps
+- User explicitly asks "explain step by step"
+- Complex debugging with multiple variables
+- Architecture planning for multiple components
+- Learning complex concepts (educational mode)
+
+**Do NOT use for:**
+- Single-step implementations
+- Obvious solutions  
+- Simple explanations
+- Routine tasks
+
+**Usage example:**
+```
+✅ APPROPRIATE:
+User: "Bu e-commerce sistemini analyze et, checkout flow'u optimize et ve 
+payment integration'ı güncelle"
+→ Use sequential thinking (3 major steps)
+
+❌ INAPPROPRIATE:  
+User: "Button'a click handler ekle"
+→ Direct implementation (no tool needed)
+```
+
+### context7 (CONDITIONAL)
+
+**Purpose**: Documentation and library research
+
+**Use ONLY when:**
+- Implementing unfamiliar libraries/frameworks
+- Need official documentation lookup
+- API integration questions
+- Library version compatibility checks
+
+**Do NOT use for:**
+- Common React/JavaScript patterns
+- Well-known library usage  
+- Basic implementation questions
+
+**Usage example:**
+```
+✅ APPROPRIATE:
+User: "Three.js ile 3D animation implement etmek istiyorum"
+→ Use context7 (unfamiliar library documentation needed)
+
+❌ INAPPROPRIATE:
+User: "useState hook nasıl kullanılır?"  
+→ Direct explanation (well-known pattern)
+```
+
+## EFFICIENCY ANALYSIS - COST-BENEFIT
+
+### MCP TOOL OVERHEAD CALCULATION
+
+**Typical overhead per tool usage:**
+- Sequential thinking tool: +15-30 seconds
+- Context7 documentation: +20-40 seconds  
+- Context switching: +5-10 seconds
+- Total potential delay: +40-80 seconds per usage
+
+**When overhead is justified:**
+- Complex problem solving: Saves 5+ minutes of confusion
+- Unfamiliar technology: Prevents hours of wrong direction
+- Educational requests: Provides structured learning
+- Multi-step tasks: Ensures no steps are missed
+
+**When overhead is wasted:**
+- Simple implementations: Adds unnecessary delay
+- Known patterns: User gets delayed answer
+- Routine tasks: Efficiency killer
+
+### EFFICIENCY OPTIMIZATION RULES
+
+```javascript
+function shouldUseMCP(task) {
+    const complexity = assessTaskComplexity(task);
+    const userIntent = detectUserIntent(task);
+    const knowledgeGap = assessKnowledgeGap(task);
+    
+    const efficiency_score = (complexity * 0.4) + 
+                           (userIntent.learning * 0.3) +
+                           (knowledgeGap * 0.3);
+    
+    return efficiency_score > 0.6; // Only use if high efficiency score
+}
+```
+
+## TOOL-SPECIFIC USAGE PROTOCOLS
+
+### Sequential Thinking Protocol
+
+**Activation checklist:**
+- [ ] Task has multiple interconnected steps (3+)
+- [ ] Steps have dependencies on each other  
+- [ ] User needs to understand the process
+- [ ] Complex problem solving required
+
+**Usage pattern:**
+```
+📋 SEQUENTIAL THINKING ACTIVATED
+🎯 Reason: [specific multi-step problem]
+📝 Steps identified: [number of steps]
+⚡ Expected benefit: [time/confusion saved]
+```
+
+### Context7 Protocol
+
+**Activation checklist:**
+- [ ] Unfamiliar library/framework implementation
+- [ ] Official documentation needed
+- [ ] API reference lookup required
+- [ ] Version compatibility research needed
+
+**Usage pattern:**
+```
+📚 DOCUMENTATION RESEARCH ACTIVATED  
+🔍 Target: [library/framework name]
+📖 Information needed: [specific documentation type]
+⚡ Expected benefit: [accurate implementation]
+```
+
+## ANTI-PATTERNS - TOOL MISUSE PREVENTION
+
+### COMMON MCP TOOL MISUSE SCENARIOS
+
+**Over-Engineering Prevention:**
+```
+❌ MISUSE EXAMPLE:
+User: "Button component oluştur"
+Wrong approach: Sequential thinking → Plan component → Research best practices → etc.
+Correct approach: Direct simple component creation
+
+❌ MISUSE EXAMPLE:  
+User: "CSS color değiştir"
+Wrong approach: Context7 → Research CSS best practices
+Correct approach: Direct color change
+```
+
+### EFFICIENCY KILLER PATTERNS
+
+**Pattern 1: Unnecessary Analysis**
+- Using sequential thinking for obvious solutions
+- Over-analyzing simple requests
+- Creating complexity where none exists
+
+**Pattern 2: Documentation Overkill**  
+- Looking up docs for common patterns
+- Researching basic concepts user already knows
+- Context7 for standard library usage
+
+**Pattern 3: Tool Addiction**
+- Using tools just because they're available
+- Defaulting to tool usage without consideration
+- Ignoring direct solution opportunities
+
+## ESCALATION & DE-ESCALATION
+
+### ESCALATION TO MCP TOOLS
+
+**Signals that require MCP activation:**
+```
+🔄 ESCALATION TRIGGERS:
+- User confusion detected (multiple questions)
+- Task complexity higher than initially assessed  
+- Unknown technology/pattern encountered
+- Multiple interconnected problems found
+- Educational deep-dive requested
+```
+
+### DE-ESCALATION FROM MCP TOOLS
+
+**Signals to switch to direct approach:**
+```  
+⬇️ DE-ESCALATION TRIGGERS:
+- Task simpler than initially thought
+- Known patterns/solutions identified
+- User wants quick implementation
+- Time efficiency more important than deep analysis
+- Straightforward solution path clear
+```
+
+## COMMUNICATION PROTOCOLS
+
+### MCP ACTIVATION REPORTING
+
+**When activating MCP tools:**
+```
+🔧 MCP TOOL AKTİVASYONU:
+📋 Tool: [specific tool name]
+🎯 Sebep: [clear justification]  
+⏱️ Beklenen süre: [time estimate]
+💡 Beklenen fayda: [specific benefit]
+```
+
+### EFFICIENCY REPORTING
+
+**Tool usage impact:**
+```
+📊 MCP TOOL VERİMLİLİK RAPORU:
+⚡ Kullanılan araç: [tool name]
+⏱️ Harcanan zaman: [actual time]
+🎯 Elde edilen: [concrete results]
+💎 Değer: [was it worth the overhead?]
+```
+
+### NON-USAGE JUSTIFICATION
+
+**When NOT using MCP tools:**
+```
+🚀 DIRECT IMPLEMENTATION APPROACH:
+⚡ Sebep: [why MCP not needed]
+🎯 Strateji: [direct approach plan]
+⏱️ Efficiency gain: [time saved estimate]
+```
+
+## QUALITY CONTROL FOR TOOL USAGE
+
+### MCP USAGE VALIDATION
+
+Before using any MCP tool, validate:
+- [ ] **Complexity requirement met** (3+ steps or unfamiliar territory)
+- [ ] **User benefit clear** (educational, debugging, or multi-step)
+- [ ] **Efficiency justified** (tool overhead worth the benefit)
+- [ ] **Direct approach insufficient** (can't be done simply)
+
+### POST-TOOL EVALUATION
+
+After MCP tool usage:
+- [ ] **Goal achieved** (tool solved the intended problem)
+- [ ] **Time efficient** (overhead was justified)
+- [ ] **User satisfied** (got the needed depth/analysis)
+- [ ] **Quality maintained** (didn't compromise code quality)
+
+## CONTEXTUAL USAGE EXAMPLES
+
+### SCENARIO 1: NEW TECHNOLOGY INTEGRATION
+
+**Request:** "Bu projeye Socket.io eklemek istiyorum, real-time chat implement edelim"
+
+**Analysis:**
+- Unfamiliar technology: ✅ (Socket.io expertise needed)
+- Multi-step process: ✅ (server setup, client integration, chat logic)
+- Documentation needed: ✅ (Socket.io best practices)
+
+**Decision:** Use context7 + sequential thinking
+```
+📚 Context7: Socket.io documentation lookup
+📋 Sequential thinking: Multi-step implementation plan
+⚡ Justified: Unfamiliar tech + complex implementation
+```
+
+### SCENARIO 2: SIMPLE COMPONENT REQUEST
+
+**Request:** "Loading spinner component oluştur"
+
+**Analysis:**
+- Single-step task: ❌ (no MCP needed)
+- Known pattern: ❌ (basic React component)
+- Straightforward: ❌ (direct implementation)
+
+**Decision:** Direct implementation
+```
+🚀 Direct approach: Simple React component creation
+⚡ Efficiency: No tool overhead needed
+🎯 Result: Immediate working solution
+```
+
+### SCENARIO 3: COMPLEX DEBUGGING
+
+**Request:** "Form validation çalışmıyor, data submit edilmiyor, backend'de error var"
+
+**Analysis:**
+- Multi-step debugging: ✅ (frontend + backend investigation)
+- Multiple potential causes: ✅ (systematic approach needed)
+- Cross-component issue: ✅ (complex debugging required)
+
+**Decision:** Use sequential thinking
+```
+📋 Sequential thinking: Systematic debugging approach
+🎯 Steps: Frontend validation → Network layer → Backend validation
+⚡ Justified: Complex multi-layer problem requires structured approach
+```
+
+## TOOL COMBINATION STRATEGIES
+
+### WHEN TO COMBINE TOOLS
+
+**Effective combinations:**
+- **Sequential thinking + Context7**: Complex implementation of unfamiliar tech
+- **Context7 only**: Documentation lookup without multi-step planning
+- **Sequential thinking only**: Complex familiar technology implementation
+
+**Avoid over-combining:**
+- Don't use both tools for simple tasks
+- Don't stack tools without clear individual justification
+
+### COMBINATION EFFICIENCY ANALYSIS
+
+```javascript
+const toolCombinationEfficiency = {
+    sequential_only: {
+        overhead: 20,
+        benefit: 'Structured approach',
+        best_for: 'Complex familiar problems'
+    },
+    context7_only: {
+        overhead: 30,
+        benefit: 'Accurate documentation',
+        best_for: 'Unfamiliar simple implementation'
+    },
+    both_tools: {
+        overhead: 50,
+        benefit: 'Complete analysis + documentation',
+        best_for: 'Complex unfamiliar technology integration'
+    }
+};
+```
+
+## SUCCESS METRICS FOR MCP USAGE
+
+### QUANTITATIVE METRICS
+- **Usage frequency**: <30% of total interactions (selective usage)
+- **Time efficiency**: Tool overhead should save >2x its cost
+- **User satisfaction**: Educational/complex requests better served
+- **Code quality**: No quality compromise due to tool usage
+
+### QUALITATIVE INDICATORS
+- **User feedback**: "That was exactly what I needed"
+- **Problem resolution**: Complex issues properly addressed
+- **Learning facilitation**: Educational requests well-structured
+- **Time management**: No unnecessary delays in simple tasks
+
+## CONTINUOUS OPTIMIZATION
+
+### USAGE PATTERN ANALYSIS
+Regular assessment of MCP tool effectiveness:
+
+```
+📊 MCP KULLANIM ANALİZİ (Haftalık):
+📈 Total usage: [X times] / [Y total interactions] = [Z%]
+⚡ Efficiency score: [Average time saved vs. overhead]
+🎯 Success rate: [Problems solved effectively]
+🔄 Adjustment needs: [Pattern improvements needed]
+```
+
+### RULE REFINEMENT
+Based on usage patterns, continuously refine when to use tools:
+- Update complexity thresholds
+- Adjust efficiency calculations
+- Refine trigger conditions
+- Improve tool combination strategies
+
+---
+
+*MCP araçları güçlü ama pahalı araçlardır. Akıllı kullanım, maksimum fayda ile minimum overhead sağlar.*

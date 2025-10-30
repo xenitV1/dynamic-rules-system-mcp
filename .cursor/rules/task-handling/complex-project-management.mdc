@@ -1,0 +1,473 @@
+---
+description: Karmaşık proje yönetimi - Çoklu dosya, mimari planlama ve büyük ölçekli koordinasyon
+globs:
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.vue"
+  - "**/*.py"
+alwaysApply: false
+priority: 3
+triggers: ['multi_file_project', 'architecture_change', 'large_feature_implementation', 'system_refactoring']
+conditions: ['file_count > 5', 'complexity = complex', 'architectural_impact = high']
+planning_required: true
+mcp_tools: ['sequential-thinking', 'context7']
+depends_on: ['codebase-analysis.mdc', 'file-size-enforcement.mdc', 'quality-gates.mdc']
+---
+
+# KARMAŞIK PROJE YÖNETİMİ - SİSTEMATİK YAKLAŞIM
+
+## TANIM VE KAPSAM - COMPLEX PROJECT CRITERIA
+
+Karmaşık proje tanımı objektif kriterlerle belirlenir ve farklı yönetim stratejileri gerektirir.
+
+### KARMAŞIK PROJE KRİTERLERİ
+**Technical complexity indicators:**
+- 5+ dosya değişikliği veya oluşturma
+- Multiple component interaction
+- Architecture pattern değişiklikleri
+- Cross-module dependencies
+- Performance impact considerations
+- Database schema değişiklikleri
+
+**Business complexity indicators:**
+- Multiple user workflows etkilenir
+- Backward compatibility gereksinimleri
+- Integration requirements (3rd party APIs)
+- Security implications
+- Scalability concerns
+
+### PROJE TİPİ TESPİT SİSTEMİ
+
+```javascript
+function assessProjectComplexity(requirements) {
+    const complexityFactors = {
+        fileCount: countAffectedFiles(requirements),
+        dependencyDepth: analyzeDependencyChain(requirements),
+        architecturalImpact: assessArchitecturalChanges(requirements),
+        integrationNeeds: identifyIntegrationRequirements(requirements),
+        performanceImplications: evaluatePerformanceImpact(requirements)
+    };
+    
+    const complexityScore = calculateComplexityScore(complexityFactors);
+    
+    if (complexityScore > 0.7) return 'HIGHLY_COMPLEX';
+    if (complexityScore > 0.4) return 'MODERATELY_COMPLEX';
+    return 'SIMPLE'; // Bu durumda simple-task-handling.mdc devreye girer
+}
+```
+
+## MULTI-PHASE PLANNİNG - AŞAMALI PLANLAMA
+
+### PHASE 1: COMPREHENSİVE ANALYSİS
+Detaylı analiz ve planlama aşaması:
+
+```javascript
+function comprehensiveProjectAnalysis(projectScope) {
+    return {
+        codebaseMapping: analyzeCurrentCodebase(),
+        impactAssessment: calculateChangeImpact(projectScope),
+        riskAnalysis: identifyRisksAndMitigation(),
+        resourcePlanning: estimateTimeAndComplexity(),
+        dependencyPlanning: mapDependencyChanges(),
+        testingStrategy: planTestingApproach()
+    };
+}
+```
+
+**Analysis deliverables:**
+- Current architecture documentation
+- Change impact matrix
+- Risk register with mitigations
+- Implementation timeline
+- Dependency update plan
+- Testing and validation strategy
+
+### PHASE 2: ARCHITECTURE DESIGN
+Mimari tasarım ve pattern belirleme:
+
+**Design principles for complex projects:**
+- Single Responsibility Principle (her dosya tek görev)
+- Dependency Inversion (loose coupling)
+- Interface Segregation (minimal interfaces)
+- Open/Closed Principle (extension friendly)
+- File Size Compliance (dosya boyutu limitleri)
+
+**Architecture documentation:**
+```javascript
+const architectureDoc = {
+    componentHierarchy: defineComponentStructure(),
+    dataFlow: mapDataFlowPatterns(),
+    apiDesign: designInternalAPIs(),
+    errorHandling: planErrorHandlingStrategy(),
+    stateManagement: designStateArchitecture(),
+    fileSizeCompliance: ensureFileSizeManagement()
+};
+```
+
+### PHASE 3: IMPLEMENTATION ORCHESTRATION
+Koordineli implementasyon süreci:
+
+**Implementation sequence planning:**
+1. **Foundation components** (core utilities, types)
+2. **Service layer** (API calls, business logic)
+3. **UI components** (presentational components)
+4. **Integration layer** (component connections)
+5. **Testing and validation** (comprehensive testing)
+
+## DEPENDENCY ORCHESTRATION - BAĞIMLILIK YÖNETİMİ
+
+### DEPENDENCY MAPPING
+Karmaşık projelerde bağımlılık yönetimi kritiktir:
+
+```javascript
+function createDependencyMap(projectScope) {
+    const dependencyGraph = {
+        internalDependencies: mapInternalComponentDeps(),
+        externalDependencies: listExternalLibraryDeps(),
+        circularDependencies: detectPotentialCircularDeps(),
+        unusedDependencies: identifyUnusedDeps(),
+        conflictingDependencies: findVersionConflicts()
+    };
+    
+    return optimizeDependencyStructure(dependencyGraph);
+}
+```
+
+### IMPORT STRATEGY PLANNING
+Büyük projelerde import yapısı planlaması:
+
+**Import organization patterns:**
+- **Barrel exports**: Related components grouped
+- **Lazy loading**: Performance optimization
+- **Dynamic imports**: Code splitting support
+- **Type-only imports**: TypeScript optimization
+
+```javascript
+// Örnek optimal import structure
+// utils/index.js - Barrel export
+export { formatDate } from './dateUtils';
+export { validateEmail } from './validationUtils';
+export { debounce } from './performanceUtils';
+
+// components/index.js - Selective exports
+export { Button } from './Button/Button';
+export { Modal } from './Modal/Modal';
+// Lazy load büyük componentler
+export const Dashboard = lazy(() => import('./Dashboard/Dashboard'));
+```
+
+## RISK MANAGEMENT - RİSK YÖNETİMİ
+
+### RISK IDENTIFICATION MATRIX
+Karmaşık projeler için risk kategorileri:
+
+**Technical risks:**
+- File size violations during development
+- Performance degradation
+- Architecture complexity growth
+- Integration failures
+- Backward compatibility breaks
+
+**Project risks:**
+- Scope creep (kapsam genişlemesi)
+- Timeline extensions
+- Resource availability
+- Quality compromise pressures
+
+### RISK MITIGATION STRATEGIES
+
+```javascript
+function implementRiskMitigation(identifiedRisks) {
+    const mitigationPlan = identifiedRisks.map(risk => ({
+        risk: risk.description,
+        likelihood: risk.probability,
+        impact: risk.severity,
+        mitigation: generateMitigationStrategy(risk),
+        contingency: planContingencyAction(risk)
+    }));
+    
+    return prioritizeRiskActions(mitigationPlan);
+}
+```
+
+**File size risk mitigation örneği:**
+```
+🎯 Risk: Dosya boyutu limitlerinin aşılması
+📊 Likelihood: Yüksek (complex projeler)
+💥 Impact: Critical (implementation blocker)
+🛡️ Mitigation: 
+   • Her phase'de file size monitoring
+   • Proactive component splitting
+   • Early refactoring planning
+🆘 Contingency: Emergency refactoring protocol
+```
+
+## PROGRESS TRACKING - İLERLEME TAKİBİ
+
+### MILESTONE MANAGEMENT
+Karmaşık projeler için milestone tracking:
+
+```javascript
+const projectMilestones = {
+    analysis: {
+        completion: '15%',
+        deliverables: ['Architecture doc', 'Risk analysis', 'Timeline'],
+        qualityGates: ['Stakeholder review', 'Technical validation']
+    },
+    
+    foundationDevelopment: {
+        completion: '40%', 
+        deliverables: ['Core utilities', 'Service layer', 'Types'],
+        qualityGates: ['File size compliance', 'Dependency audit']
+    },
+    
+    coreImplementation: {
+        completion: '70%',
+        deliverables: ['Main components', 'Business logic', 'Integrations'],
+        qualityGates: ['Quality score >85', 'Performance benchmarks']
+    },
+    
+    integrationTesting: {
+        completion: '90%',
+        deliverables: ['Integration tests', 'E2E validation', 'Documentation'],
+        qualityGates: ['All tests pass', 'Final quality audit']
+    },
+    
+    deployment: {
+        completion: '100%',
+        deliverables: ['Production deployment', 'Monitoring setup'],
+        qualityGates: ['Production validation', 'Performance monitoring']
+    }
+};
+```
+
+### QUALITY CHECKPOINT INTEGRATION
+Her milestone'da kalite kontrolü:
+
+```javascript
+function runMilestoneQualityCheck(milestone) {
+    const qualityAssessment = {
+        fileSizeCompliance: auditFileSizes(),
+        codeQualityScore: calculateQualityMetrics(),
+        architecturalIntegrity: validateArchitecture(),
+        performanceMetrics: benchmarkPerformance(),
+        testCoverage: measureTestCoverage()
+    };
+    
+    return determineMilestonePassing(qualityAssessment);
+}
+```
+
+## TEAM COORDINATION - TAKIM KOORDINASYONU
+
+### MULTI-DEVELOPER COORDINATION
+Birden fazla developer'ın çalıştığı senaryolar için:
+
+**Coordination strategies:**
+- **Component ownership**: Her developer'ın sorumlu olduğu alanlar
+- **Interface contracts**: Component'ler arası anlaşmalar  
+- **Merge protocols**: Code integration kuralları
+- **Quality consistency**: Takım çapında kalite standartları
+
+```javascript
+const teamCoordinationPlan = {
+    componentOwnership: {
+        'developer_1': ['UserManagement', 'Authentication'],
+        'developer_2': ['Dashboard', 'Analytics'],
+        'developer_3': ['Settings', 'Integrations']
+    },
+    
+    sharedResources: {
+        'utils': 'Shared ownership, PR review required',
+        'types': 'Architecture lead approval required',
+        'config': 'Team lead approval required'
+    },
+    
+    integrationPoints: {
+        'daily_sync': 'File size status, dependency changes',
+        'weekly_review': 'Architecture compliance, quality metrics',
+        'milestone_review': 'Complete quality assessment'
+    }
+};
+```
+
+### CODE INTEGRATION PROTOCOLS
+Büyük takımlar için merge protokolleri:
+
+**Pre-merge checklist:**
+- [ ] File size compliance verified
+- [ ] Quality gates passed
+- [ ] No circular dependencies introduced
+- [ ] Performance impact assessed
+- [ ] Documentation updated
+- [ ] Tests passing
+
+## SCALABILITY PLANNING - ÖLÇEKLENEBİLİRLİK
+
+### FUTURE-PROOF ARCHITECTURE
+Büyüme için tasarım prensipleri:
+
+**Scalability dimensions:**
+- **Code scalability**: File organization, module structure
+- **Performance scalability**: Lazy loading, code splitting
+- **Team scalability**: Clear boundaries, minimal coupling
+- **Feature scalability**: Plugin architecture, extension points
+
+```javascript
+function planScalableArchitecture(projectScope) {
+    return {
+        moduleStructure: designModularArchitecture(),
+        performanceStrategy: planPerformanceOptimizations(),
+        extensibilityPoints: identifyExtensionPoints(),
+        maintenanceStrategy: planMaintenanceApproach()
+    };
+}
+```
+
+### PERFORMANCE CONSIDERATIONS
+Büyük projelerde performance planning:
+
+**Performance strategies:**
+- **Bundle optimization**: Code splitting, tree shaking
+- **Lazy loading**: Component ve route-based lazy loading  
+- **Memory management**: Efficient state management
+- **Rendering optimization**: Memoization, virtualization
+
+## TECHNICAL DEBT MANAGEMENT
+
+### DEBT PREVENTION STRATEGIES
+Karmaşık projelerde technical debt kontrolü:
+
+```javascript
+function manageTechnicalDebt(projectProgress) {
+    const debtMetrics = {
+        fileSizeDebt: identifyOversizedFiles(),
+        codeQualityDebt: measureQualityDeficits(),
+        architecturalDebt: assessArchitecturalViolations(),
+        documentationDebt: auditDocumentationGaps()
+    };
+    
+    return prioritizeDebtReduction(debtMetrics);
+}
+```
+
+**Debt categories ve actions:**
+- **File size debt**: Immediate refactoring required
+- **Quality debt**: Progressive improvement plan
+- **Architecture debt**: Planned refactoring phases
+- **Documentation debt**: Parallel documentation efforts
+
+## COMPLEX PROJECT COMMUNICATION
+
+### STAKEHOLDER REPORTING
+Karmaşık projeler için comprehensive reporting:
+
+```
+🏗️ KARMAŞIK PROJE DURUM RAPORU
+
+📊 GENEL İLERLEME:
+   🎯 Tamamlanan: [X%] - Milestone: [Current milestone]
+   📅 Timeline: [on track/ahead/delayed] - [reason if delayed]
+   🎲 Risk Status: [risk count] active risks, [mitigation count] mitigations
+
+📏 DOSYA BOYUTU DURUMU:
+   ✅ Compliant dosyalar: [X dosya]
+   ⚠️ Yaklaşan limitler: [X dosya] (600-699 satır)
+   🚫 İhlaller: [X dosya] (refactoring scheduled)
+
+🏛️ ARCHİTECTURE HEALTH:
+   🎯 Design pattern compliance: [percentage]
+   🔗 Dependency health: [circular: X, unused: Y]
+   📈 Maintainability score: [X/100]
+
+⚡ PERFORMANCE METRİKLERİ:
+   📦 Bundle size: [X KB] (target: [Y KB])
+   🚀 Load time: [X ms] (target: [Y ms])
+   💾 Memory usage: [acceptable/concerning]
+
+🧪 KALİTE DURUMU:
+   📊 Overall quality score: [X/100]
+   🧹 Code cleanliness: [status]
+   📚 Documentation: [completion percentage]
+   
+🚀 SONRAKİ ADIMLAR:
+   • [Next milestone objectives]
+   • [Immediate action items]
+   • [Risk mitigation actions]
+```
+
+### DECISION TRACKING
+Karmaşık projeler için decision log:
+
+```javascript
+const decisionLog = [
+    {
+        date: '2024-01-15',
+        decision: 'React Context yerine Zustand kullanılacak',
+        reason: 'Better performance for complex state',
+        impact: 'All state management components affected',
+        fileImpact: 'StateProvider.tsx will be refactored (current: 890 lines)'
+    },
+    
+    {
+        date: '2024-01-16', 
+        decision: 'Dashboard componentini 3 dosyaya böl',
+        reason: 'File size violation (1,247 lines)',
+        impact: 'Dashboard functionality maintained, better maintainability',
+        implementation: 'DashboardMain.tsx, DashboardCharts.tsx, DashboardSettings.tsx'
+    }
+];
+```
+
+## SUCCESS CRITERIA - BAŞARI KRİTERLERİ
+
+### PROJECT SUCCESS METRICS
+Karmaşık projeler için başarı ölçümleri:
+
+**Technical success criteria:**
+- All files comply with size limits (< 1000 lines)
+- Overall quality score > 85
+- No circular dependencies
+- Performance targets met
+- Test coverage > 80%
+
+**Business success criteria:**
+- All requirements delivered
+- Timeline adherence
+- Stakeholder satisfaction
+- Maintainability achieved
+- Scalability validated
+
+### POST-PROJECT REVIEW
+Proje completion sonrası değerlendirme:
+
+```
+📋 PROJE TAMAMLANMA RAPORU
+
+✅ TEKNİK BAŞARILAR:
+   📏 Dosya boyutu compliance: [%100] 
+   📊 Kalite skoru: [X/100]
+   ⚡ Performance hedefleri: [achieved/missed]
+   🧪 Test coverage: [X%]
+
+💼 BUSİNESS BAŞARILAR:
+   🎯 Requirements delivery: [%completion]
+   📅 Timeline performance: [on time/delayed by X]
+   😊 Stakeholder satisfaction: [score/10]
+
+📚 LESSONS LEARNED:
+   • [Key learnings from project]
+   • [Process improvements identified]
+   • [Best practices validated]
+
+🔮 GELECEKTEKİ PROJELERİ İÇİN:
+   • [Recommendations for future projects]
+   • [Process optimizations]
+   • [Tool and strategy improvements]
+```
+
+---
+
+*Karmaşık projeler sistematik yaklaşım, dikkatli planlama ve sürekli kalite kontrolü ile başarıya ulaşır. Complexity'i küçük, yönetilebilir parçalara bölerek her adımda kalite standartlarını koruyoruz.*

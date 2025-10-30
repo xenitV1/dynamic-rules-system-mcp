@@ -1,0 +1,293 @@
+---
+description: Tek dosya ve basit değişiklikler için optimize edilmiş hızlı görev yönetimi - MCP tool kullanmadan direkt implementasyon
+globs:
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.ts"
+  - "**/*.tsx" 
+  - "**/*.css"
+  - "**/*.scss"
+alwaysApply: false
+priority: 4
+triggers: ['single_file_modification', 'simple_implementation', 'quick_fix', 'minor_feature_addition']
+conditions: ['file_count <= 2', 'line_changes < 50', 'no_new_dependencies']
+mcp_tools: disabled
+depends_on: ['file-size-enforcement.mdc', 'clean-code-standards.mdc', 'language-rules.mdc']
+---
+
+# BASİT GÖREV YÖNETİMİ - HIZLI VE ETKİLİ
+
+## TANIM - BASİT GÖREV NEDİR?
+
+Basit görev tanımı net ve ölçülebilir kriterlerle belirlenir:
+
+### BASİT GÖREV KRİTERLERİ
+✅ **Dosya sayısı**: 1-2 dosya maksimum  
+✅ **Satır değişimi**: 50 satırdan az ekleme/değişiklik  
+✅ **Complexity**: Tek bir feature veya bug fix  
+✅ **Dependency**: Yeni kütüphane gerektirmez  
+✅ **Scope**: Tek component veya single function  
+
+### BASİT GÖREV ÖRNEKLERİ
+- Button component oluşturma
+- CSS styling değişiklikleri  
+- Tek bir bug düzeltme
+- Form validation ekleme
+- Loading state implementasyonu
+- Single hook oluşturma
+- Utility function yazma
+
+## STREAMLINED WORKFLOW - OPTİMİZE EDİLMİŞ SÜREÇ
+
+### 3-STEP PROCESS
+Basit görevler için çok hızlı ve verimli bir süreç:
+
+```
+1. FAST CHECK → 2. DIRECT IMPLEMENT → 3. QUALITY VALIDATE
+     (5 sn)            (Ana işlem)              (10 sn)
+```
+
+#### STEP 1: FAST CHECK (Hızlı Kontrol)
+```javascript
+function fastPreCheck() {
+    return {
+        fileSizeOk: checkTargetFileSize() < 700,
+        scopeSimple: isTaskScopeSimple(),
+        dependencyClean: noNewDependenciesRequired()
+    };
+}
+```
+
+**Fast check items:**
+- [ ] **Hedef dosya boyutu** < 700 satır (2 saniye)
+- [ ] **Task scope** basit mi? (2 saniye)  
+- [ ] **Yeni dependency** gerekiyor mu? (1 saniye)
+
+#### STEP 2: DIRECT IMPLEMENT (Direkt Uygulama)  
+Fast check'i geçerse direkt implementasyon:
+- ✅ **No MCP tools** (zaman kaybı olmaz)
+- ✅ **Direct code writing** (anında başla)
+- ✅ **Focused implementation** (sadece gerekli kod)
+- ✅ **Minimal approach** (over-engineering yok)
+
+#### STEP 3: QUALITY VALIDATE (Kalite Doğrulama)
+```javascript
+function quickQualityCheck() {
+    return {
+        unusedImportsRemoved: cleanupImports(),
+        deadCodeEliminated: removeDeadCode(),
+        fileSizeCompliant: checkFinalFileSize(),
+        singleResponsibility: validateComponentFocus()
+    };
+}
+```
+
+## NO MCP TOOLS POLICY - HIZLI EXECUTION
+
+### NEDEN MCP TOOL YOK?
+Basit görevlerde MCP tool kullanımı efficiency kaybı yaratır:
+
+**MCP tool overhead:**
+- Sequential thinking: +15-30 saniye
+- Context switching: +10 saniye  
+- Tool initialization: +5 saniye
+- **Total overhead**: +30-45 saniye
+
+**Direct approach benefit:**
+- Immediate implementation: 0 saniye overhead
+- Focused execution: Daha az distraction
+- Faster user feedback: Anında sonuç
+
+### MCP TOOL EXCEPTIONS - SINIRLI KULLANIM
+Sadece bu durumlar da MCP tool kullan:
+- **Unknown codebase**: Hiç görülmemiş proje yapısı
+- **Complex dependencies**: 3+ dosya interaction
+- **User explicitly requests**: "Adım adım açıkla"
+
+## IMPLEMENTATION PATTERNS - PROVEN FORMULAS
+
+### COMPONENT CREATION PATTERN
+```javascript
+// Template for simple component creation
+const NewComponent = ({ prop1, prop2 }) => {
+  // Single responsibility focus
+  const handleAction = () => {
+    // Minimal logic
+  };
+
+  return (
+    <div className="component-container">
+      {/* Clean, focused JSX */}
+    </div>
+  );
+};
+
+export default NewComponent;
+```
+
+### UTILITY FUNCTION PATTERN
+```javascript
+// Template for simple utility functions  
+export const utilityFunction = (input) => {
+  // Input validation (if needed)
+  if (!input) return null;
+  
+  // Core logic (minimal)
+  const result = processInput(input);
+  
+  // Return processed result
+  return result;
+};
+```
+
+### BUG FIX PATTERN  
+```javascript
+// Template for simple bug fixes
+// 1. Identify the minimal change needed
+// 2. Apply the fix without over-engineering  
+// 3. Test the specific fix (no scope creep)
+
+// Example:
+// ❌ Before (buggy)
+const calculateTotal = (items) => {
+  return items.reduce((sum, item) => sum + item.price); // Missing initial value
+};
+
+// ✅ After (fixed)
+const calculateTotal = (items) => {
+  return items.reduce((sum, item) => sum + item.price, 0);
+};
+```
+
+## EFFICIENCY OPTIMIZATION - ZAMAN TASARRUFU
+
+### TIME SAVING STRATEGIES
+
+**Import management optimization:**
+```javascript
+// Automatic import optimization during implementation
+// Instead of asking user, just clean and organize
+import React, { useState } from 'react'; // Consolidated  
+import { Button, Input } from './components'; // Organized
+// Removed: import { unused } from 'somewhere'; // Auto-removed
+```
+
+**Code structure optimization:**
+```javascript
+// Apply single responsibility automatically
+// If component doing multiple things, suggest split immediately:
+
+// ❌ Detected: Multiple responsibilities
+const UserProfileAndSettings = () => {/*...*/};
+
+// ✅ Auto-suggest split:
+"Bu component iki farklı görev yapıyor. İkiye bölelim:"
+// UserProfile.jsx
+// UserSettings.jsx
+```
+
+### RAPID FEEDBACK LOOPS
+
+**Immediate status reporting:**
+```
+🚀 BASİT GÖREV - HIZLI MMOD
+📁 Hedef: Button.jsx (156 satır / 1000 limit - ✅ UYGUN)  
+⚡ Implementing... (direkt kod yazıyor)
+🧹 Auto-cleanup: 1 unused import removed
+✅ Tamamlandı: 23 satır eklendi, kalite kontrol geçti
+```
+
+## QUALITY GATES - SIMPLIFIED VALIDATION
+
+### PRE-IMPLEMENTATION (Hızlı)
+- [ ] File size < 700 lines (2 sn check)
+- [ ] Scope is simple (mental check)  
+- [ ] No new dependencies needed
+
+### POST-IMPLEMENTATION (Otomatik)
+- [ ] Unused imports cleaned ✅
+- [ ] Dead code removed ✅  
+- [ ] File size still compliant ✅
+- [ ] Single responsibility maintained ✅
+
+### QUALITY REPORT - CONCISE FORMAT
+```
+✅ BASİT GÖREV TAMAMLANDI
+🎯 Yapılan: [specific implementation] 
+📏 Dosya durumu: [X satır] (+[Y added]) - [STATUS]
+🧹 Otomatik temizlik: [cleanup summary]
+⚡ Süre: [estimated time] - [efficiency note]
+```
+
+## ERROR HANDLING - RAPID RESOLUTION
+
+### COMMON SIMPLE TASK ERRORS
+
+**File size violation:**
+```
+🛑 HIZLI MMOD ENGELLEME  
+📏 Hedef dosya: [X satır] > 700 limit
+🔄 Gerekli: Önce refactoring, sonra feature
+📋 Hızlı çözüm: [specific refactoring steps]
+```
+
+**Scope creep detection:**
+```  
+⚠️ SCOPE ARTIŞI TESPİT EDİLDİ
+🎯 Başlangıç: [original simple task]
+📈 Mevcut: [expanded scope]  
+🔄 Öneri: Scope'u basit tut veya complex mode'a geç
+```
+
+## PERFORMANCE TRACKING
+
+### EFFICIENCY METRICS
+- **Task completion time**: < 2 dakika target
+- **Code quality score**: Automatic validation pass
+- **User satisfaction**: Immediate working solution
+- **File size impact**: Minimal size increase
+
+### OPTIMIZATION OPPORTUNITIES
+```
+📊 BASİT GÖREV PERFORMANCE:
+⏱️  Ortalama süre: [X saniye]  
+🎯 Başarı oranı: [%X tasks completed without issues]
+🔄 Refactoring trigger: [%X tasks needed file splitting]  
+⚡ Efficiency gain: [X%] faster than complex mode
+```
+
+## ESCALATION RULES - COMPLEXITY DETECTION
+
+### WHEN TO SWITCH TO COMPLEX MODE
+Basit görev sırasında şu durumlar tespit edilirse complex mode'a geç:
+
+- **File size violation** detected (>700 lines)
+- **Multiple file modification** needed  
+- **New dependency** requirements emerge
+- **Architecture change** needed
+- **User requests step-by-step** explanation
+
+**Escalation message:**
+```
+🔄 COMPLEX MODE'A GEÇİŞ GEREKİYOR
+📋 Sebep: [escalation reason]
+🎯 Yeni yaklaşım: [complex project management]
+📚 Yüklenen componentler: [list of additional components]
+```
+
+## SİSTEM ENTEGRASYONU
+
+### COMPONENT INTERACTION OPTIMIZATION
+- `file-size-enforcement.mdc`: Pre-check olarak fast integration  
+- `clean-code-standards.mdc`: Post-implementation auto-apply
+- `language-rules.mdc`: Continuous Turkish communication
+
+### EFFICIENCY PRIORITIZATION
+1. **Speed**: En hızlı çalışan çözüm
+2. **Quality**: Otomatik kalite standartları  
+3. **Simplicity**: Over-engineering prevention
+4. **User satisfaction**: Immediate working result
+
+---
+
+*Basit görevler için over-engineering yapmak efficiency katilidir. Bu component maksimum hız ve kalite dengesini optimize eder.*
