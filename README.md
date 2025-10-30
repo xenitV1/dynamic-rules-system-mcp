@@ -170,7 +170,7 @@ Not: GitHub kimlik doğrulaması (PAT/SSO) gerekebilir.
 Herhangi bir lisans bulunmamaktadır; isteyen dilediği gibi kullanabilir.
 
 ## Geliştirici
-Bu kural sistemi Mehmet (Xenit) tarafından geliştirilmiştir.
+Bu kural sistemi Mehmet (Xenit) tarafından geliştirilmiştir. https://x.com/xenit_v0
 
 ---
 Bu README, `rules/` altındaki merkezi ve modüler kural sisteminin kısa ve pratik bir özetini sunar.
