@@ -145,26 +145,6 @@ audit:
 - Kuralları proje kökünde `.cursor/rules/` altında koruyun.
 - Yeni görevde önce `rules/rules.mdc` içeriğine göre bağlam tespiti ve kural seti seçimini uygulayın.
 
-## Kurulum ve Remote Depo
-Bu repo şu uzak depoya itilebilir: `https://github.com/xenitV1/cursor-dynamic-rules-system.git`
-
-Önerilen adımlar (PowerShell):
-```
-# Proje kökünde çalışın
-git init
-git add .
-git commit -m "chore: initialize rules system and README"
-
-# Ana dalı ayarla
-git branch -M main
-
-# Uzak repo ekle
-git remote add origin https://github.com/xenitV1/cursor-dynamic-rules-system.git
-
-# İlk push
-git push -u origin main
-```
-Not: GitHub kimlik doğrulaması (PAT/SSO) gerekebilir.
 
 ## Lisans
 Herhangi bir lisans bulunmamaktadır; isteyen dilediği gibi kullanabilir.
