@@ -142,10 +142,8 @@ audit:
 ```
 
 ## Kullanım
-- Kuralları proje kökünde `rules/` altında koruyun.
+- Kuralları proje kökünde `.cursor/rules/` altında koruyun.
 - Yeni görevde önce `rules/rules.mdc` içeriğine göre bağlam tespiti ve kural seti seçimini uygulayın.
-- 700+ satırlık hedef dosyalarda refactoring yapılmadan ek kod yazmayın.
-- Acil durumlarda `protocols/emergency-protocols.mdc` prosedürlerini izleyin ve mutlaka dokümante edin.
 
 ## Kurulum ve Remote Depo
 Bu repo şu uzak depoya itilebilir: `https://github.com/xenitV1/cursor-dynamic-rules-system.git`
