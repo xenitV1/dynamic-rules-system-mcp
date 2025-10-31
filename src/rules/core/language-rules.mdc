@@ -1,0 +1,205 @@
+---
+description: Türkçe kullanıcı iletişimi ve İngilizce kod yazımı standartları - İletişim protokolleri
+globs:
+  - "**/*"
+  - "**/.*"
+alwaysApply: true
+priority: 2
+triggers: ['user_communication', 'code_writing', 'documentation', 'error_messages']
+communication_language: turkish
+code_language: english
+type: core_component
+component_id: language-rules
+---
+
+# DİL KURALLARI - İLETİŞİM STANDARTLARI
+
+## TEMEL PRENSİP - İKİLİ DİL YAKLASIMI
+
+Bu sistem Türkçe ve İngilizce'yi stratejik olarak ayırarak kullanır. Her dilin kendine özel kullanım alanları vardır ve bu ayrım kod kalitesini ve kullanıcı deneyimini optimize eder.
+
+## 🇹🇷 TÜRKÇE KULLANIM ALANLARI
+
+### KULLANICI İLETİŞİMİ (Mutlak Türkçe)
+Kullanıcıyla yapılan her türlü iletişim Türkçe olmalıdır çünkü bu kullanıcının ana dilidir ve en etkili öğrenme ve anlamanın gerçekleştiği dildir.
+
+**Türkçe kullanılacak durumlar:**
+- Tüm açıklamalar ve yanıtlar kullanıcıya yönelik
+- Durum bildirimleri ve sistem mesajları  
+- Hata mesajları ve uyarılar
+- Proje açıklamaları ve dokümantasyon
+- Çözüm önerileri ve alternatifler
+- Kalite kontrol raporları
+- Refactoring önerileri ve planları
+
+### İLETİŞİM ÖRNEKLERİ
+```
+✅ DOĞRU:
+"Dosya boyutu kontrolü yapıldı: 847 satır / 1000 limit"
+"Import yapısı optimize edildi: 3 kullanılmayan import kaldırıldı"
+"Kod yapısı iyileştirildi: tek sorumluluk ilkesi uygulandı"
+
+❌ YANLIŞ:
+"File size check completed: 847 lines / 1000 limit"
+"Import structure optimized: 3 unused imports removed"
+```
+
+## 🔤 İNGİLİZCE KULLANIM ALANLARI
+
+### KOD VE TEKNİK YAPILAR (Mutlak İngilizce)
+Kodda İngilizce kullanmak uluslararası standartları takip etmeyi, kütüphane entegrasyonlarını kolaylaştırmayı ve kod okunabilirliğini artırmayı sağlar.
+
+**İngilizce kullanılacak durumlar:**
+- Tüm kod yazımı ve yorumlar
+- Değişken ve fonksiyon isimleri
+- Dosya ve klasör adları
+- Import/export ifadeleri
+- API araştırması ve dokümantasyon
+- Kütüphane ve framework araştırmaları
+- Teknik terimler (gerekli durumlar hariç)
+
+### KOD YAZIM ÖRNEKLERİ
+```javascript
+✅ DOĞRU:
+// User authentication component with validation
+const UserAuthComponent = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userCredentials, setUserCredentials] = useState(null);
+  
+  const handleUserLogin = (credentials) => {
+    // Validate credentials and update state
+    validateUserCredentials(credentials);
+  };
+  
+  return (
+    <div className="auth-container">
+      {/* Authentication form content */}
+    </div>
+  );
+};
+
+❌ YANLIŞ:
+// Kullanıcı doğrulama bileşeni
+const KullaniciDogrulama = () => {
+  const [girisYapildiMi, setGirisYapildiMi] = useState(false);
+```
+
+## KARMIŞIK DURUMLAR - ÇÖZÜM STRATEJİLERİ
+
+### TEKNİK TERİMLER İÇİN YAKLAŞIM
+Bazı durumlarda teknik terimler hem Türkçe hem İngilizce kullanılabilir. Bu durumda hangi dilin daha anlaşılır olduğuna göre karar verin.
+
+**Örnek yaklaşımlar:**
+- "Component" → "Bileşen" (Türkçe kullanıcıya açıklarken)
+- "State" → "Durum" veya "State" (context'e göre)
+- "Hook" → "Hook" (yerleşik terim olduğu için)
+- "Import" → "Import" (teknik terim olarak)
+
+### HİBRİT İLETİŞİM ÖRNEĞİ
+```
+Açıklama (Türkçe): "UserProfile component'ini optimize ettim"
+Kod (İngilizce): 
+const UserProfile = ({ userId, displayMode }) => {
+  // Component logic here
+}
+```
+
+## DURUM BAZLI İLETİŞİM PROTOKOLLERI
+
+### BASİT GÖREV İLETİŞİMİ
+```
+🎯 Görev tamamlandı: Button component'i oluşturuldu
+📁 Dosya: src/components/Button/Button.jsx (89 satır)
+🧹 Temizlik: 2 kullanılmayan import kaldırıldı
+✅ Kalite kontrol: Tüm standartlar uygulandı
+```
+
+### KARMAŞIK PROJE İLETİŞİMİ  
+```
+🏗️ Proje yapısı analiz edildi: React + TypeScript architecture
+📋 Tespit edilen dosyalar: 15 component, 8 hook, 5 service dosyası
+⚠️ Boyut uyarısı: 3 dosya refactoring gerektiyor (700+ satır)
+🔄 Planlanan işlemler: 
+   1. Header.tsx dosyasını böl (892 satır → 3 dosya)  
+   2. UserService.ts optimize et (743 satır → utility extraction)
+   3. Import yapısını güncelle
+```
+
+### HATA VE UYARI İLETİŞİMİ
+```
+🚫 HATA: Dosya boyutu limiti aşıldı
+📏 Mevcut durum: Dashboard.tsx (1,247 satır / 1000 limit)
+⚡ Acil eylem: Derhal refactoring gerekli
+🔧 Önerilen çözüm:
+   - Dashboard logic'i ayrı hook'a taşı
+   - Chart component'lerini ayrı dosyalara böl
+   - API call'ları service dosyasına al
+```
+
+## KALİTE KONTROL İLETİŞİMİ
+
+### BAŞARILI İŞLEM RAPORU
+Her işlem sonunda kullanıcıya Türkçe olarak net bir rapor sunulmalıdır:
+
+```
+✅ İŞLEM TAMAMLANDI
+🎯 Yapılan: [specific action in Turkish]
+📏 Dosya durumu: [file status in Turkish] 
+🧹 Temizlik: [cleanup actions in Turkish]
+🔄 Optimize: [optimization details in Turkish]
+⚠️ Uyarı: [warnings if any, in Turkish]
+```
+
+### BLOKAJ DURUMU İLETİŞİMİ
+```
+🛑 İŞLEM DURDURULDU
+❌ Sebep: [reason in Turkish]
+🎯 Gerekli aksiyon: [required action in Turkish]  
+📋 Adım adım çözüm:
+   1. [step 1 in Turkish]
+   2. [step 2 in Turkish]
+   3. [step 3 in Turkish]
+```
+
+## EDUCATIONAL YAKLAŞIMDA DİL KULLANIMI
+
+### ÖĞRETİM MODUNDA İLETİŞİM
+Kullanıcı öğrenmeye odaklandığında, açıklamalar detaylı Türkçe yapılmalı ancak kod örnekleri İngilizce standartlarda tutulmalıdır.
+
+```
+Açıklama: 
+"React'te state yönetimi için useState hook'unu kullanıyoruz. Bu hook component'in
+dahili durumunu takip etmemizi sağlar. İşte nasıl çalıştığı:"
+
+Kod örneği:
+const [count, setCount] = useState(0);
+
+const handleIncrement = () => {
+  setCount(prevCount => prevCount + 1);
+};
+
+Açıklama devamı:
+"Burada count değişkeni mevcut durumu, setCount fonksiyonu ise durumu 
+güncellemek için kullandığımız setter fonksiyonudur."
+```
+
+## SİSTEM ENTEGRASYONU
+
+### DİĞER COMPONENTLERLE İLİŞKİ
+Bu dil kuralları tüm diğer componentlerin iletişim standardını belirler:
+
+- `file-size-enforcement.mdc`: Boyut kontrol mesajları Türkçe
+- `clean-code-standards.mdc`: Kod kalite raporları Türkçe  
+- `educational-approach.mdc`: Öğretim açıklamaları Türkçe
+- `emergency-protocols.mdc`: Acil durum bildirimleri Türkçe
+
+### CONSISTENCY KONTROLÜ
+Her response'da dil kullanımının tutarlılığını kontrol edin:
+- [ ] Kullanıcı iletişimi Türkçe yapıldı
+- [ ] Kod ve teknik yapılar İngilizce yazıldı
+- [ ] Hibrit durumlar uygun şekilde handle edildi
+- [ ] Teknik terimler context'e uygun seçildi
+
+---
+
+*Bu dil stratejisi kullanıcının ana dilinde etkili öğrenmesini sağlarken, kod kalitesini uluslararası standartlarda tutar.*

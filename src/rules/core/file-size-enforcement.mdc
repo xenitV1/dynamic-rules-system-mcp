@@ -1,0 +1,172 @@
+---
+description: MUTLAK dosya boyutu kontrolü - 700+ satırda kod ekleme blokajı ve zorunlu refactoring
+globs:
+  - "**/*.js"
+  - "**/*.jsx" 
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.vue"
+  - "**/*.py"
+alwaysApply: true
+priority: 1
+triggers: ['file_modification', 'code_addition', 'new_implementation']
+enforcement_level: absolute
+---
+
+# DOSYA BOYUTU KONTROLÜ - MUTLAK ENFORCEMENT
+
+## 🚨 KRİTİK KURAL - İSTİSNASIZ
+
+Bu component tüm diğer kurallardan daha önceliklidir. Hiçbir işlem dosya boyutu limitlerini ihlal edemez.
+
+## MUTLAK LİMİTLER
+
+### HARD LİMİTLER (Değiştirilemez)
+- **Maximum dosya boyutu**: 1000 satır (yorumlar ve boş satırlar dahil)
+- **Blokaj eşiği**: 700 satır
+- **700+ satırda**: YENİ KOD EKLENEMEMEMez (ZERO TOLERANCE)
+- **Acil durum istisnası**: Maksimum +50 satır (sadece kritik bugfix)
+
+### ENFORCEMENT PROTOKOLÜ
+
+#### ADIM 1: KONTROLDEN ÖNCE BLOKAJ (Her kod değişikliğinde)
+```javascript
+function enforceFileSizeBeforeAnyChange() {
+    const currentLines = countFileLines(targetFile);
+    
+    if (currentLines >= 700) {
+        BLOCK_ALL_CODE_ADDITIONS();
+        REQUIRE_IMMEDIATE_REFACTORING();
+        return STATUS_BLOCKED;
+    }
+    
+    return STATUS_ALLOWED;
+}
+```
+
+#### ADIM 2: REFACTORING ZORUNLULUĞU
+**700+ satır tespit edildiğinde:**
+1. **DERHAL DURDUR**: Tüm kod ekleme işlemlerini bloke et
+2. **KULLANICIYA BİLDİR**: Refactoring gerektiğini açıkça söyle
+3. **ÇÖZÜM SUNAR**: Dosyayı nasıl böleceğini öner
+4. **ÖNCELİKLENDİR**: Bu işlemi diğer her şeyden önce yap
+
+#### ADIM 3: REFACTORING STRATEJİLERİ
+
+**Dosya bölme teknikleri:**
+- **Feature Separation**: İlgili özellikleri ayrı dosyalara taşı
+- **Component Splitting**: Büyük component'leri böl  
+- **Utility Extraction**: Yardımcı fonksiyonları ayrı dosyaya al
+- **Type Definitions**: Tip tanımlarını ayrı dosyaya taşı
+- **Hook Extraction**: Custom hook'ları ayrı dosyaya al
+- **Service Separation**: İş mantığını servis dosyalarına taşı
+
+## İSTİSNA HANELLERİ - ÇOK SINIRLI
+
+### İZİNLİ İSTİSNALAR (Çok sınırlı)
+
+#### 1. YENİ DOSYA ENTEGRASYONU (+20 satır max)
+```javascript
+// SADECE bu tür eklemeler izinli:
+import { NewComponent } from './components/NewComponent';
+import { newUtility } from './utils/newUtility';
+
+// Bağlantı kodları (minimal)
+const connectionLogic = () => { /* minimal kod */ };
+export { connectionLogic };
+```
+
+#### 2. REFACTORING BAĞLANTILARI (+15 satır max)
+```javascript
+// Import/export güncellemeleri refactoring sonrası
+export { MovedFunction } from './newFile';
+export { AnotherMovedFunction } from './anotherNewFile';
+```
+
+#### 3. KRİTİK BUG FİX (+50 satır max)
+- **Üretim hatası** düzeltmesi
+- **Güvenlik açığı** giderme
+- **Sistem çökmesi** önleme
+- **Veri kaybı** engelleme
+
+**Acil durum protokolü:**
+```javascript
+// TODO: EMERGENCY FIX - REFACTORING REQUIRED ASAP
+// Added: 2024-XX-XX - Reason: [Critical bug description]
+// Schedule: Refactor within 24 hours
+// Max lines added: XX/50
+```
+
+### İSTİSNA REDDİ - KABUL EDİLMEZ
+
+**Bu durumlar asla istisna sayılmaz:**
+- ❌ "Sadece küçük bir özellik ekliyorum"
+- ❌ "Refactoring sonraya kalsın" 
+- ❌ "Bu sefer bir kez olsun"
+- ❌ "Zaman yok, hızlı yapmalıyım"
+- ❌ "Sadece birkaç satır"
+
+## ENFORCEMENT İLETİŞİMİ
+
+### BLOKAJ BİLDİRİMİ
+```
+🚫 DOSYA BOYUTU İHLALİ TESPİT EDİLDİ
+📏 Mevcut boyut: [X] satır / 1000 limit
+⚠️  Blokaj eşiği aşıldı: [X] > 700 satır
+🔄 GEREKLİ AKSIYON: Derhal refactoring yapılmalı
+❌ YENİ KOD EKLENEMEMEMEMez (Bu kurala istisna yok)
+
+📋 ÖNERİLEN REFACTORING STRATEJİSİ:
+- [Specific splitting suggestions]
+- [New file recommendations]
+- [Import structure updates]
+```
+
+### REFACTORING TAMAMLAMA BİLDİRİMİ
+```
+✅ REFACTORING TAMAMLANDI
+📁 Yeni dosyalar oluşturuldu: [list]
+📏 Güncel dosya boyutları: [list with line counts]
+🔗 Import yapısı güncellendi: [changes]
+🎯 DURUM: Kod eklemeye hazır (boyut limitleri uygun)
+```
+
+### ACIL DURUM İSTİSNA BİLDİRİMİ
+```
+⚠️  EMERGENCY EXCEPTION ACTIVATED
+🚨 Reason: [critical bug/security/crash description]
+📏 Lines added: [X]/50 emergency limit
+⏰ MANDATORY: Refactoring scheduled within 24 hours
+📝 TODO added: Immediate cleanup required
+```
+
+## KALİTE KONTROL GEÇİTLERİ
+
+### Her işlem öncesi kontrol:
+- [ ] **Target dosya boyutu kontrol edildi**
+- [ ] **700+ satır kontrolü yapıldı** 
+- [ ] **Gerekirse blokaj uygulandı**
+- [ ] **Refactoring planı oluşturuldu**
+- [ ] **Kullanıcı bilgilendirildi**
+
+### Her işlem sonrası doğrulama:
+- [ ] **Hiçbir dosya 1000 satırı geçmedi**
+- [ ] **Yeni eklenen kodlar limit dahilinde**
+- [ ] **Acil durum istisnası dokümante edildi**
+- [ ] **Refactoring ihtiyacı belirlendi**
+
+## SİSTEM ENTEGRASYONU
+
+**Diğer componentlerle ilişki:**
+- `clean-code-standards.mdc`: Dosya boyutu temizlik sonrası kontrol edilir
+- `codebase-analysis.mdc`: Analiz sırasında dosya boyutları raporlanır  
+- `simple-task-handling.mdc`: Basit görevler bile boyut kontrolünden geçer
+- `complex-project-management.mdc`: Karmaşık projeler önce boyut kontrolü yapar
+
+**Öncelik sırası:**
+1. DOSYA BOYUTU KONTROLÜ (En yüksek öncelik)
+2. Diğer tüm kurallar (Boyut kontrolü geçtikten sonra)
+
+---
+
+*Bu component sistemimdeki en kritik kural olarak her zaman aktif kalır ve hiçbir istisna kabul etmez.*

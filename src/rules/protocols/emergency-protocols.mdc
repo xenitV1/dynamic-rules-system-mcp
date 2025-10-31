@@ -1,0 +1,401 @@
+---
+description: Acil durum protokolleri - Kritik hata düzeltmeleri için sınırlı dosya boyutu istisnası (max +50 satır)
+globs:
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.py"
+alwaysApply: false
+priority: 1
+triggers: ['critical_bug_fix', 'security_vulnerability', 'production_error', 'system_crash_prevention']
+conditions: ['severity = critical', 'production_impact = high']
+file_size_exception: 50
+emergency_override: true
+mandatory_documentation: true
+refactoring_schedule: immediate
+depends_on: ['file-size-enforcement.mdc', 'language-rules.mdc']
+---
+
+# ACİL DURUM PROTOKOLLERI - CRITICAL OVERRIDE
+
+## TEMEL FELSEFESİ - CONTROLLED EXCEPTION
+
+Bu component normal kuralları geçersiz kılma yetkisine sahip tek component'tir. Ancak bu yetki sadece gerçek acil durumlar için kullanılır ve sıkı kontroller altındadır. Her istisna mutlaka dokümante edilir ve hemen refactoring planlanır.
+
+## ACİL DURUM TESPİTİ - EMERGENCY CLASSIFICATION
+
+### ACİL DURUM KRİTERLERİ - STRICT DEFINITIONS
+
+Aşağıdaki durumlar gerçek acil durum sayılır ve dosya boyutu kurallarında sınırlı istisna yapılabilir:
+
+**CRITICAL SEVERITY LEVELS:**
+- **SEVERİTY 1**: Sistem tamamen çökmüş, kullanıcılar erişemiyor
+- **SEVERİTY 2**: Kritik işlevler çalışmıyor (payment, authentication)
+- **SEVERİTY 3**: Güvenlik açığı tespit edildi, immediate patch gerekli
+- **SEVERİTY 4**: Veri kaybı riski var, immediate backup/fix gerekli
+
+```javascript
+function classifyEmergency(issue) {
+    const emergencyTypes = {
+        SYSTEM_CRASH: {
+            severity: 1,
+            maxLineException: 50,
+            timeLimit: '1 hour',
+            refactoringDeadline: '24 hours'
+        },
+        CRITICAL_FUNCTION_DOWN: {
+            severity: 2,
+            maxLineException: 40,
+            timeLimit: '2 hours',
+            refactoringDeadline: '48 hours'
+        },
+        SECURITY_VULNERABILITY: {
+            severity: 3,
+            maxLineException: 30,
+            timeLimit: '4 hours',
+            refactoringDeadline: '24 hours'
+        },
+        DATA_LOSS_RISK: {
+            severity: 4,
+            maxLineException: 30,
+            timeLimit: '6 hours',
+            refactoringDeadline: '48 hours'
+        }
+    };
+    
+    return determineEmergencyType(issue, emergencyTypes);
+}
+```
+
+### NON-EMERGENCY EXCLUSIONS - REDDEDILECEK DURUMLAR
+
+Aşağıdaki durumlar acil durum sayılmaz ve normal kurallar uygulanır:
+
+❌ **KABUL EDİLMEYEN GEREKÇELER:**
+- "Bu feature çok önemli, hemen yapılmalı"
+- "Deadline yaklaştı, hızlı halletmek lazım"
+- "Sadece bir kere olsun, sonra refactor yaparız"
+- "Client bekliyor, acele etmek lazım"
+- "Bug var ama sistem çalışıyor"
+- "Performance problemi var ama kritik değil"
+- "UI bug'ı, görünüm bozuk"
+
+## ACİL DURUM AKTİVASYON PROTOKOLLERİ
+
+### PHASE 1: ACİL DURUM DOĞRULAMA
+Her acil durum iddiası titiz şekilde kontrol edilir:
+
+```javascript
+function validateEmergency(userRequest) {
+    const validation = {
+        isProductionDown: assessProductionStatus(),
+        userImpactLevel: calculateUserImpact(),
+        businessCriticalityy: assessBusinessImpact(),
+        timeToImpact: calculateTimeToResolution(),
+        alternativeSolutions: checkForQuickAlternatives()
+    };
+    
+    return validation.isProductionDown && 
+           validation.userImpactLevel >= 'high' &&
+           validation.businessCriticality >= 'critical';
+}
+```
+
+**Doğrulama soruları:**
+- Sistem şu an kullanıcılar tarafından erişilemiyor mu?
+- Bu sorun para kaybına veya veri kaybına neden oluyor mu?
+- Güvenlik açığı aktif olarak exploit edilme riski var mı?
+- Bu sorunu refactoring sonrasına bırakma şansımız yok mu?
+
+### PHASE 2: İSTİSNA HESAPLAMA
+Gerçek acil durum tespit edilirse, minimum gerekli istisna hesaplanır:
+
+```javascript
+function calculateMinimalException(emergencyType, targetFile) {
+    const currentSize = getFileSize(targetFile);
+    const fixRequirement = assessFixRequirement();
+    
+    const exception = {
+        maxAdditionalLines: Math.min(
+            emergencyType.maxLineException,
+            fixRequirement.absoluteMinimum
+        ),
+        justification: emergencyType.reason,
+        refactoringDeadline: emergencyType.refactoringDeadline,
+        documentationRequired: true
+    };
+    
+    return exception;
+}
+```
+
+### PHASE 3: CONTROLLED IMPLEMENTATION
+İstisna onaylandıktan sonra kontrollü implementasyon başlatılır:
+
+```javascript
+// Emergency implementation protocol
+function emergencyImplementation(fix, exception) {
+    // Pre-implementation logging
+    logEmergencyStart({
+        timestamp: Date.now(),
+        issue: fix.issue,
+        targetFile: fix.targetFile,
+        currentSize: getFileSize(fix.targetFile),
+        maxException: exception.maxAdditionalLines,
+        estimatedAddition: fix.estimatedLines
+    });
+    
+    // Implement with line counting
+    const implementationResult = applyFixWithLineTracking(fix);
+    
+    // Post-implementation validation  
+    validateEmergencyCompliance(implementationResult, exception);
+    
+    // Schedule mandatory refactoring
+    scheduleRefactoring(exception.refactoringDeadline);
+}
+```
+
+## EMERGENCY IMPLEMENTATION LIMITS
+
+### MAXIMUM ADDITIONS BY SEVERITY
+Her acil durum tipine göre maksimum ekleme limitleri:
+
+```javascript
+const EMERGENCY_LIMITS = {
+    SYSTEM_CRASH: {
+        maxLines: 50,
+        examples: [
+            "Server crash fix",
+            "Database connection restore",
+            "Critical API endpoint repair"
+        ]
+    },
+    CRITICAL_FUNCTION_DOWN: {
+        maxLines: 40,
+        examples: [
+            "Payment processor fix",
+            "User authentication repair", 
+            "Core business logic fix"
+        ]
+    },
+    SECURITY_VULNERABILITY: {
+        maxLines: 30,
+        examples: [
+            "SQL injection patch",
+            "Authentication bypass fix",
+            "Data exposure prevention"
+        ]
+    },
+    DATA_LOSS_RISK: {
+        maxLines: 30,
+        examples: [
+            "Data corruption prevention",
+            "Backup mechanism fix",
+            "Transaction rollback repair"
+        ]
+    }
+};
+```
+
+### IMPLEMENTATION CONSTRAINTS
+Acil durum implementasyonu bile sınırlar dahilindedir:
+
+- ✅ **İZİN VERİLEN**: Minimum gerekli kod ekleme
+- ✅ **İZİN VERİLEN**: Kritik bug'ı düzelten spesifik kod
+- ✅ **İZİN VERİLEN**: Güvenlik açığını kapatan kod
+- ✅ **İZİN VERİLEN**: System crash'i önleyen kod
+
+- ❌ **İZİN VERİLMEYEN**: Feature enhancement
+- ❌ **İZİN VERİLMEYEN**: Code optimization "while we're at it"
+- ❌ **İZİN VERİLMEYEN**: Refactoring during emergency
+- ❌ **İZİN VERİLMEYEN**: Scope creep
+
+## MANDATORY DOCUMENTATION - ZORUNLU DOKÜMANTASYON
+
+Her acil durum müdahalesi detaylı şekilde dokümante edilir:
+
+### ACİL DURUM LOG FORMATI
+```javascript
+/*
+ * EMERGENCY INTERVENTION LOG
+ * =========================
+ * Timestamp: 2024-01-15 14:30:22 UTC
+ * Issue ID: EMERGENCY-2024-001
+ * Severity: CRITICAL (System Crash)
+ * 
+ * PROBLEM DESCRIPTION:
+ * Production database connection pool exhausted, causing complete
+ * system unavailability. Users cannot access the application.
+ * 
+ * IMPACT ASSESSMENT:
+ * - Affected users: ~10,000 active sessions
+ * - Business impact: $5,000/hour revenue loss
+ * - SLA breach: YES (99.9% uptime commitment)
+ * 
+ * EMERGENCY FIX APPLIED:
+ * File: src/database/ConnectionManager.js
+ * Lines before: 734 lines
+ * Lines added: 23 lines (EMERGENCY EXCEPTION)
+ * Lines after: 757 lines
+ * 
+ * CHANGES MADE:
+ * 1. Added connection pool size validation
+ * 2. Implemented connection recycling mechanism  
+ * 3. Added emergency connection cleanup
+ * 
+ * REFACTORING SCHEDULED:
+ * Deadline: 2024-01-16 14:30:22 UTC (24 hours)
+ * Plan: Extract connection management to separate service
+ * Estimated effort: 4 hours
+ * 
+ * SIGN-OFF:
+ * Emergency authorized by: System Rules Override
+ * Technical lead approval: PENDING
+ * Refactoring assignment: PENDING
+ */
+```
+
+### ACİL DURUM RAPORU
+Her acil durum sonrası detaylı rapor oluşturulur:
+
+```
+🚨 ACİL DURUM MÜDAHALE RAPORU
+
+📊 DURUM ÖZETİ:
+   🎯 Sorun: [detaylı problem açıklaması]
+   ⚡ Şiddet: [CRITICAL/HIGH severity]
+   ⏱️ Toplam downtime: [X minutes]
+   👥 Etkilenen kullanıcı: [X kullanıcı]
+
+🔧 UYGULANAN ÇÖZÜM:
+   📁 Hedef dosya: [dosya yolu]
+   📏 Önceki boyut: [X satır]
+   ➕ Eklenen: [Y satır] (ACİL İSTİSNA)
+   📏 Yeni boyut: [X+Y satır]
+
+⚠️ KURAL İSTİSNASI:
+   🚫 Normal limit: 700 satır
+   📈 Mevcut durum: [X+Y satır] (İSTİSNA AKTİF)
+   ⏰ İstisna süresi: [deadline]
+   
+🔄 REFACTORING PLANI:
+   📅 Deadline: [kesin tarih]
+   📋 Plan: [detaylı refactoring stratejisi]
+   ⏱️ Tahmini süre: [X saat]
+   
+✅ ACİL DURUM SONLANDIRILDI
+```
+
+## REFACTORING ENFORCEMENT - ZORUNLU TEMİZLEME
+
+### AUTOMATIC SCHEDULING
+Her acil durum müdahalesi otomatik olarak refactoring görevi oluşturur:
+
+```javascript
+function scheduleEmergencyRefactoring(emergency) {
+    const refactoringTask = {
+        id: `REFACTOR-${emergency.id}`,
+        priority: 'CRITICAL',
+        deadline: calculateRefactoringDeadline(emergency.severity),
+        description: `Emergency refactoring for ${emergency.file}`,
+        currentSize: emergency.newFileSize,
+        targetSize: 'under 700 lines',
+        strategy: generateRefactoringStrategy(emergency)
+    };
+    
+    // Add to priority queue
+    addToCriticalTasks(refactoringTask);
+    
+    // Set reminders  
+    setRefactoringReminders(refactoringTask);
+    
+    return refactoringTask;
+}
+```
+
+### REFACTORING DEADLINE CALCULATION
+Acil durum şiddetine göre refactoring deadline'ları:
+
+- **SYSTEM CRASH**: 24 saat içinde
+- **CRITICAL FUNCTION**: 48 saat içinde  
+- **SECURITY ISSUE**: 24 saat içinde
+- **DATA RISK**: 48 saat içinde
+
+### NON-COMPLIANCE CONSEQUENCES
+Refactoring deadline kaçırılırsa:
+
+```
+⚠️ REFACTORING DEADLINE KAÇIRILDI!
+
+🚨 DURUM: Kritik refactoring görevi tamamlanmadı
+📁 Dosya: [emergency file path]
+📅 Deadline: [missed deadline]
+⏰ Gecikme: [X hours late]
+
+🔒 AKTİF KISITLAMALAR:
+   ❌ Bu dosyaya yeni kod eklenemez
+   ❌ Bu dosyayla ilgili yeni feature'lar bloke
+   ❌ Proje build warning'leri aktif
+
+🎯 İVEDİ EYLEM GEREKLİ:
+   1. Refactoring'i derhal tamamla
+   2. Dosya boyutunu 700 satır altına indir  
+   3. Test coverage'i doğrula
+   4. Code review yap
+```
+
+## EMERGENCY PREVENTION - ÖNLEME STRATEJİLERİ
+
+### EARLY WARNING SYSTEM
+Acil durumları önlemek için erken uyarı sistemi:
+
+```javascript
+function checkEmergencyRisk(project) {
+    const riskFactors = {
+        largeFiles: countFilesOverSize(600), // 600+ satırlı dosyalar risk
+        couplingLevel: assessModuleCoupling(),
+        testCoverage: getTestCoverage(),
+        techDebt: assessTechnicalDebt()
+    };
+    
+    if (riskFactors.largeFiles > 5) {
+        warn("EMERGENCY RISK: Çok fazla büyük dosya tespit edildi");
+    }
+    
+    if (riskFactors.couplingLevel > 0.7) {
+        warn("EMERGENCY RISK: Yüksek coupling, değişiklikler riskli");
+    }
+}
+```
+
+### PROACTIVE REFACTORING
+Acil durumları önlemek için proaktif refactoring:
+
+- 600+ satırlık dosyalar için otomatik uyarı
+- Coupling analizi ve risk assessment
+- Regular maintenance window'ları
+- Technical debt tracking
+
+## QUALITY GATES - ACİL DURUM KALİTE KONTROLÜ
+
+### PRE-EMERGENCY VALIDATION
+Acil durum bile olsa minimum kalite kontrolleri yapılır:
+
+- [ ] **Syntax check**: Kod çalışır durumda mı?
+- [ ] **Import validation**: Yeni import'lar gereksiz değil mi?
+- [ ] **Basic testing**: Temel functionality çalışıyor mu?
+- [ ] **Security check**: Güvenlik açığı yaratmıyor mu?
+
+### POST-EMERGENCY VERIFICATION
+Acil durum sonrası validation:
+
+- [ ] **Fix effectiveness**: Sorun gerçekten çözüldü mü?
+- [ ] **No regression**: Başka sorunlara neden olmadı mı?
+- [ ] **Documentation complete**: Dokümantasyon tam mı?
+- [ ] **Refactoring scheduled**: Temizleme görevi oluşturuldu mu?
+
+---
+
+*Acil durumlar kaçınılmazdır, ancak kontrollü müdahale ile hem sorunu çözer hem de sistem bütünlüğünü koruruz. Her istisna geçici, her çözüm dokümante, her müdahale geri alınabilir olmalıdır.*

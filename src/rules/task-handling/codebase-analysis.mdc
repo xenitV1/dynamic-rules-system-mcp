@@ -1,0 +1,272 @@
+---
+description: Kod tabanı analizi ve dosya boyutu audit - Implementasyondan önce zorunlu codebase anlayışı
+globs:
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.py"
+  - "**/*.vue"
+alwaysApply: false
+priority: 3
+triggers: ['new_feature_request', 'existing_codebase_modification', 'refactoring_need']
+conditions: ['existing_project = true', 'file_count > 5']
+mandatory_steps: ['file_size_audit', 'architecture_mapping', 'dependency_analysis']
+depends_on: ['file-size-enforcement.mdc']
+---
+
+# KOD TABANI ANALİZİ - ZORUNLU ANLAYIŞ
+
+## TEMEL PRENSİP - UNDERSTAND BEFORE IMPLEMENT
+
+Bu component'in temel felsefesi çok nettir: Herhangi bir kod değişikliği yapmadan önce mevcut kod tabanını tamamen anlamak zorunludur. Bu yaklaşım hem kod kalitesini korur hem de yanlış implementasyonları önler.
+
+## ZORUNLU ANALİZ PROTOKOLÜ - MANDATORY STEPS
+
+Sistem her implementasyon isteğinde şu adımları zorunlu olarak gerçekleştirir:
+
+### ADIM 1: DOSYA BOYUTU AUDİTİ (Mutlak Öncelik)
+İlk adım her zaman dosya boyutlarının kontrol edilmesidir çünkü bu sonraki tüm işlemleri etkiler:
+
+```javascript
+function performFileSizeAudit(projectPath) {
+    const allFiles = scanProjectFiles(projectPath);
+    const sizeReport = allFiles.map(file => ({
+        path: file.path,
+        lineCount: countLines(file),
+        status: determineStatus(countLines(file)),
+        violationType: getViolationType(countLines(file))
+    }));
+    
+    const violations = sizeReport.filter(file => file.lineCount > 700);
+    const critical = sizeReport.filter(file => file.lineCount > 1000);
+    
+    return {
+        totalFiles: allFiles.length,
+        violations: violations,
+        criticalViolations: critical,
+        implementationBlocked: violations.length > 0
+    };
+}
+```
+
+**Dosya boyutu durumları:**
+- **0-500 satır**: Güvenli - yeni kod eklenebilir
+- **500-699 satır**: Yaklaşıyor - dikkatli ekleme
+- **700-999 satır**: İhlal - yeni kod bloke edilir
+- **1000+ satır**: Kritik - acil refactoring gerekli
+
+### ADIM 2: MİMARİ HARİTALAMA
+Kod tabanının genel yapısını anlamak için systematic bir analiz yapılır:
+
+```javascript
+function mapProjectArchitecture(projectPath) {
+    return {
+        frameworkType: detectFramework(projectPath),
+        componentStructure: analyzeComponentHierarchy(projectPath),
+        dependencyFlow: traceDependencies(projectPath),
+        designPatterns: identifyPatterns(projectPath),
+        codeOrganization: assessOrganization(projectPath)
+    };
+}
+```
+
+**Mimari analiz çıktıları:**
+- Proje tipi tespiti (React, Vue, Node.js, Python vs.)
+- Component hiyerarşisi haritası
+- Bağımlılık akış diyagramı
+- Kullanılan design pattern'lar
+- Kod organizasyon yapısı değerlendirmesi
+
+### ADIM 3: BAĞIMLILIK ANALİZİ
+Mevcut kodun nasıl birbirine bağlı olduğunu anlamak kritiktir:
+
+```javascript
+function analyzeDependencies(projectPath) {
+    const importGraph = buildImportGraph(projectPath);
+    const circularDeps = detectCircularDependencies(importGraph);
+    const unusedImports = findUnusedImports(projectPath);
+    const externalDeps = analyzeExternalDependencies(projectPath);
+    
+    return {
+        importStructure: importGraph,
+        circularDependencies: circularDeps,
+        unusedImports: unusedImports,
+        externalDependencies: externalDeps,
+        dependencyHealth: assessDependencyHealth(importGraph)
+    };
+}
+```
+
+## CONTEXT DETECTION SİSTEMİ - AKILLI ANALIZ
+
+Sistem farklı proje tiplerini otomatik olarak tanır ve buna göre analiz stratejisini uyarlar:
+
+### REACT PROJE ANALİZİ
+React projelerinde özel olarak aranacak pattern'lar:
+- Component composition yapıları
+- Hook kullanım pattern'ları  
+- State management yaklaşımları
+- Context API kullanımları
+- Custom hook'ların yeri ve kullanımı
+
+```javascript
+function analyzeReactProject(projectPath) {
+    return {
+        componentTypes: categorizeComponents(projectPath),
+        hookUsage: analyzeHookPatterns(projectPath),
+        stateManagement: detectStateManagement(projectPath),
+        routingStructure: analyzeRouting(projectPath)
+    };
+}
+```
+
+### NODE.JS BACKEND ANALİZİ
+Backend projelerinde odaklanılacak alanlar:
+- API endpoint yapıları
+- Database connection pattern'ları
+- Middleware kullanımları
+- Error handling yaklaşımları
+
+### PYTHON PROJE ANALİZİ
+Python projelerinde incelenecek konular:
+- Module organization pattern'ları
+- Class hierarchy'leri
+- Function organization yaklaşımları
+- Package structure mantığı
+
+## BLOKLAMA KRİTERLERİ - IMPLEMENTATION PREVENTION
+
+Belirli durumlar tespit edildiğinde implementasyon derhal durdurulur:
+
+### OTOMATIK BLOKLAMA DURUMLAR
+```javascript
+function shouldBlockImplementation(analysisResults) {
+    const blockingConditions = [
+        analysisResults.fileSizeViolations.length > 0,
+        analysisResults.criticalArchitecturalIssues.length > 0,
+        analysisResults.circularDependencies.length > 0,
+        analysisResults.majorRefactoringNeeded === true
+    ];
+    
+    return blockingConditions.some(condition => condition === true);
+}
+```
+
+**Bloklama sebepleri:**
+- **Dosya boyutu ihlalleri**: 700+ satırlı dosyalar
+- **Kritik mimari sorunlar**: Circular dependencies, god objects
+- **Tehlikeli bağımlılıklar**: Unused imports, broken dependencies
+- **Büyük refactoring ihtiyacı**: Systematic değişiklikler gerekli
+
+### BLOKLAMA İLETİŞİMİ
+```
+🛑 IMPLEMENTASYON DURDURULDU
+📊 Analiz sonuçları:
+   📏 Dosya boyutu ihlalleri: [X dosya > 700 satır]
+   🏗️ Mimari sorunlar: [tespit edilen sorunlar]
+   🔗 Bağımlılık problemleri: [circular deps, unused imports]
+
+🔄 GEREKLİ AKSİYONLAR:
+   1. [Spesifik refactoring adımları]
+   2. [Dosya bölme önerileri]  
+   3. [Mimari düzenlemeler]
+
+⚠️ İmplementasyon bu sorunlar çözülene kadar bloke edilmiştir.
+```
+
+## ÖĞRENME MODELLERİ - CODEBASE UNDERSTANDING
+
+Farklı karmaşıklık seviyelerinde farklı analiz derinlikleri uygulanır:
+
+### BASIT PROJELER (< 10 dosya)
+- Temel dosya yapısı analizi
+- Import/export ilişkileri
+- Temel pattern tanıma
+
+### ORTA PROJELER (10-50 dosya)
+- Detaylı mimari analiz
+- Component interaction mapping
+- Performance impact assessment
+- Code quality metrics
+
+### KARMAŞIK PROJELER (50+ dosya)
+- Comprehensive architectural review
+- Cross-module dependency analysis
+- Scalability assessment
+- Technical debt identification
+
+## ANALİZ RAPORLAMA - COMPREHENSIVE REPORTING
+
+Her analiz sonunda kullanıcıya detaylı rapor sunulur:
+
+### ANALİZ RAPORU FORMATI
+```
+📊 KOD TABANI ANALİZ RAPORU:
+
+🏗️ PROJE MİMARİSİ:
+   📋 Tip: [React/Vue/Node.js/Python]
+   📁 Dosya sayısı: [X dosya]
+   🎯 Ana pattern'lar: [tespit edilen design patterns]
+
+📏 DOSYA BOYUT DURUMU:
+   ✅ Güvenli dosyalar: [X dosya] (< 700 satır)
+   ⚠️ Yaklaşan limitler: [X dosya] (500-699 satır)  
+   🚫 İhlaller: [X dosya] (700+ satır)
+   💥 Kritik durumlar: [X dosya] (1000+ satır)
+
+🔗 BAĞIMLILIK DURUMU:
+   📦 Import yapısı: [sağlıklı/sorunlu]
+   ♻️ Circular dependencies: [X adet]
+   ❌ Unused imports: [X adet]
+   🔧 Temizlik gerekli: [evet/hayır]
+
+🎯 İMPLEMENTASYON DURUMMANı:
+   [✅ Hazır / 🔄 Refactoring sonrası / 🛑 Bloke]
+```
+
+### REFACTORING ÖNERİLERİ
+Analiz sonunda sistemik öneriler sunulur:
+
+```
+🔧 REFACTORING ÖNERİLERİ:
+
+📏 DOSYA BOYUTU İÇİN:
+   • [FileName.tsx] dosyasını böl → [3 önerilen dosya]
+   • [AnotherFile.js] utility extraction → [2 yeni dosya]
+
+🏗️ MİMARİ İYİLEŞTİRME:
+   • Component hierarchy düzenle
+   • Service layer seperation
+   • Custom hook extraction
+
+🔗 BAĞIMLILIK TEMİZLİĞİ:
+   • [X adet] unused import kaldır
+   • Circular dependency çöz: [spesifik öneriler]
+   • Import organization: [grup bazlı düzenleme]
+```
+
+## KALİTE GÜVENCESİ - ANALYSIS VALIDATION
+
+Analizin doğruluğunu sağlamak için çoklu validasyon katmanları:
+
+### PRE-ANALYSIS VALIDATION
+- Proje yapısının okunabilir olduğunu kontrol et
+- File path'lerin erişilebilir olduğunu doğrula
+- Permission sorunları olup olmadığını kontrol et
+
+### POST-ANALYSIS VERIFICATION  
+- Analysis sonuçlarının consistent olduğunu kontrol et
+- Cross-reference farklı analiz sonuçlarını
+- Missing information varsa ikinci pass yap
+
+### CONTINUOUS MONITORING
+- Analiz sırasında değişen dosyaları tekrar kontrol et
+- Real-time size monitoring yap
+- Dynamic dependency changes'i takip et
+
+Bu comprehensive yaklaşım sayesinde hiçbir implementasyon eksik bilgiyle yapılmaz ve kod kalitesi sürekli olarak korunur. Analiz süreci görünürde zaman alıyor gibi gözükse de, sonrasında yapılacak implementasyonun doğruluğunu ve kalitesini garanti ediyor.
+
+---
+
+*Kod tabanını anlamadan implementasyon yapmak, karanlıkta yürümek gibidir. Bu analiz süreci implementasyonun ışığıdır.*

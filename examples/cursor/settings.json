@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "cursor dynamic rules": {
+      "command": "dynamic-rules-system-mcp",
+      "priority": 100,
+      "autoload": true
+    }
+  }
+}
