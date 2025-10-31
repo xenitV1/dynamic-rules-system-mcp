@@ -76,8 +76,8 @@ Add to your `settings.json`:
 {
   "mcpServers": {
     "cursor-rules": {
-      "command": "npx",
-      "args": ["dynamic-rules-system-mcp"],
+      "command": "dynamic-rules-system-mcp",
+      "args": [],
       "priority": 100
     }
   }
@@ -93,8 +93,8 @@ Add to your `settings.json`:
   "mcp": {
     "servers": {
       "cursor-rules": {
-        "command": "npx",
-        "args": ["dynamic-rules-system-mcp"],
+        "command": "dynamic-rules-system-mcp",
+        "args": [],
         "priority": 100
       }
     }
@@ -104,10 +104,18 @@ Add to your `settings.json`:
 
 ## Configuration
 
-Configure user preferences:
+Configure user preferences (choose one):
+
+Installer shim:
 
 ```bash
-npx dynamic-rules-system-mcp config
+dynamic-rules-system-mcp config
+```
+
+Local dev (no shim):
+
+```bash
+node /absolute/path/to/dynamic-rules-system-mcp/dist/cli.js config
 ```
 
 Available settings:
